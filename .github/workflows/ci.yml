@@ -1,0 +1,40 @@
+name: Food Ordering CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install pytest
+
+      - name: Run order total calculation
+        run: |
+          cd app
+          python -c "
+          from app import calculate_order_total
+          items = [
+              {'name': 'Burger', 'price': 5.0, 'quantity': 2},
+              {'name': 'Fries',  'price': 2.0, 'quantity': 3},
+          ]
+          total = calculate_order_total(items, discount=10)
+          print(f'Order total after 10% discount: \${total}')
+          "
+
+      - name: Run tests
+        run: |
+          cd app
+          pytest test_run.py -v
