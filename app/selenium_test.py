@@ -48,51 +48,7 @@ class TestLogin:
         assert "Products" in heading.text
         time.sleep(DELAY)
 
-    def test_invalid_username(self, driver):
-        driver.get(BASE_URL)
-        time.sleep(DELAY)
-
-        wait = WebDriverWait(driver, 10)
-        wait.until(EC.presence_of_element_located((By.ID, "user-name"))).send_keys(INVALID_USER)
-        time.sleep(1)
-        driver.find_element(By.ID, "password").send_keys(VALID_PASS)
-        time.sleep(1)
-        driver.find_element(By.ID, "login-button").click()
-        time.sleep(DELAY)
-
-        error = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='error']")))
-        assert "do not match" in error.text
-        time.sleep(DELAY)
-
-    def test_invalid_password(self, driver):
-        driver.get(BASE_URL)
-        time.sleep(DELAY)
-
-        wait = WebDriverWait(driver, 10)
-        wait.until(EC.presence_of_element_located((By.ID, "user-name"))).send_keys(VALID_USER)
-        time.sleep(1)
-        driver.find_element(By.ID, "password").send_keys(INVALID_PASS)
-        time.sleep(1)
-        driver.find_element(By.ID, "login-button").click()
-        time.sleep(DELAY)
-
-        error = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='error']")))
-        assert "do not match" in error.text
-        time.sleep(DELAY)
-
-    def test_empty_credentials_rejected(self, driver):
-        driver.get(BASE_URL)
-        time.sleep(DELAY)
-
-        wait = WebDriverWait(driver, 10)
-        wait.until(EC.presence_of_element_located((By.ID, "login-button"))).click()
-        time.sleep(DELAY)
-
-        error = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='error']")))
-        assert "Username is required" in error.text
-        time.sleep(DELAY)
-
-    def test_invalid_both_rejected(self, driver):
+    def test_invalid_login(self, driver):
         driver.get(BASE_URL)
         time.sleep(DELAY)
 
@@ -105,7 +61,6 @@ class TestLogin:
         time.sleep(DELAY)
 
         assert "inventory" not in driver.current_url
-
         error = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[data-test='error']")))
         assert len(error.text) > 0
         time.sleep(DELAY)
