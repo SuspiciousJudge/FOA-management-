@@ -13,7 +13,10 @@ class Cart:
         self.items = [i for i in self.items if i['name'] != name]
 
     def total(self):
-        return round(sum(i['price'] * i['quantity'] for i in self.items), 2)
+        t = 0
+        for item in self.items:
+            t += item['price'] * item['quantity']
+        return round(t, 2)
 
     def clear(self):
         self.items = []
